@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 325" width="520" height="325">
+<style>
+  .bg{fill:#011627}.bar{fill:#0b2942}
+  text{font:15px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre}
+  .p{fill:#addb67}.c{fill:#82aaff}.o{fill:#d6deeb}
+  .l{animation-duration:13s;animation-iteration-count:infinite;animation-timing-function:step-end}
+  @keyframes l0{0%,3.08%{opacity:0}4.00%,96%{opacity:1}100%{opacity:0}}@keyframes l1{0%,9.09%{opacity:0}10.01%,96%{opacity:1}100%{opacity:0}}@keyframes l2{0%,15.10%{opacity:0}16.03%,96%{opacity:1}100%{opacity:0}}@keyframes l3{0%,21.12%{opacity:0}22.04%,96%{opacity:1}100%{opacity:0}}@keyframes l4{0%,27.13%{opacity:0}28.06%,96%{opacity:1}100%{opacity:0}}@keyframes l5{0%,33.15%{opacity:0}34.07%,96%{opacity:1}100%{opacity:0}}@keyframes l6{0%,39.16%{opacity:0}40.08%,96%{opacity:1}100%{opacity:0}}@keyframes l7{0%,45.17%{opacity:0}46.10%,96%{opacity:1}100%{opacity:0}}@keyframes l8{0%,51.19%{opacity:0}52.11%,96%{opacity:1}100%{opacity:0}}@keyframes l9{0%,57.20%{opacity:0}58.13%,96%{opacity:1}100%{opacity:0}}@keyframes l10{0%,63.22%{opacity:0}64.14%,96%{opacity:1}100%{opacity:0}}@keyframes l11{0%,69.23%{opacity:0}70.15%,96%{opacity:1}100%{opacity:0}}
+  @media (prefers-reduced-motion:reduce){.l{animation:none;opacity:1}}
+</style>
+<rect class="bg" width="520" height="325" rx="12"/>
+<path class="bar" d="M0 12a12 12 0 0 1 12-12h496a12 12 0 0 1 12 12v24H0z"/>
+<circle cx="24" cy="18" r="6" fill="#ff5f56"/><circle cx="44" cy="18" r="6" fill="#ffbd2e"/><circle cx="64" cy="18" r="6" fill="#27c93f"/>
+  <text class="l" style="animation-name:l0" x="24" y="66" xml:space="preserve"><tspan class="p">$ </tspan><tspan class="c">git-scope all</tspan></text>
+  <text class="l" style="animation-name:l1" x="24" y="88" xml:space="preserve"><tspan class="o">Changed files:</tspan></text>
+  <text class="l" style="animation-name:l2" x="24" y="110" xml:space="preserve"><tspan class="o">  ➔ [M] src/lib.rs</tspan></text>
+  <text class="l" style="animation-name:l3" x="24" y="132" xml:space="preserve"><tspan class="o">  ➔ [M] src/main.rs</tspan></text>
+  <text class="l" style="animation-name:l4" x="24" y="154" xml:space="preserve"><tspan class="o"></tspan></text>
+  <text class="l" style="animation-name:l5" x="24" y="176" xml:space="preserve"><tspan class="p">$ </tspan><tspan class="c">git-scope commit HEAD</tspan></text>
+  <text class="l" style="animation-name:l6" x="24" y="198" xml:space="preserve"><tspan class="o">Commit Message:</tspan></text>
+  <text class="l" style="animation-name:l7" x="24" y="220" xml:space="preserve"><tspan class="o">   feat: add retry helper</tspan></text>
+  <text class="l" style="animation-name:l8" x="24" y="242" xml:space="preserve"><tspan class="o"></tspan></text>
+  <text class="l" style="animation-name:l9" x="24" y="264" xml:space="preserve"><tspan class="o">Changed files:</tspan></text>
+  <text class="l" style="animation-name:l10" x="24" y="286" xml:space="preserve"><tspan class="o">  ➤ [A] src/lib.rs  [+1 / -0]</tspan></text>
+  <text class="l" style="animation-name:l11" x="24" y="308" xml:space="preserve"><tspan class="o">  Total: +1 / -0</tspan></text>
+</svg>

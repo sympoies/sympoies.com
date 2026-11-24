@@ -1,12 +1,19 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import BoardArt from '../components/BoardArt.astro';
+import RuntimeArt from '../components/RuntimeArt.astro';
 import { t } from '../i18n';
 import { projects } from '../lib/projects';
 import type { Locale } from '../lib/site';
+import agentCollabShot from '../assets/work/agent-collab.webp';
+import salonShot from '../assets/work/salon.webp';
+import terminal from '../assets/work/nils-cli-terminal.svg';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const c = t(locale).work;
+const sizes = '(min-width: 48rem) 34rem, calc(100vw - 2rem)';
 ---
 
 <Base locale={locale} page="work" title={c.title} description={c.description}>
@@ -20,19 +27,35 @@ const c = t(locale).work;
   <section class="section">
     <div class="container">
       <ul class="grid grid-2 cards">
-        {projects.map((p) => (
-          <li class="card project">
-            <h2 class="project-name">
-              <span class="mono">{p.name}</span>
-              {p.early && <span class="badge">{c.earlyLabel}</span>}
-            </h2>
-            <p>{c.projects[p.id].description}</p>
-            <p class="project-links">
-              <a href={p.repo} rel="noopener">{c.repoLink}<span class="sr-only"> — {p.name}</span> ↗</a>
-              {p.demo && <a href={p.demo} rel="noopener">{c.demoLink}<span class="sr-only"> — {p.name}</span> ↗</a>}
-            </p>
-          </li>
-        ))}
+        {projects.map((p) => {
+          const alt = c.projects[p.id].alt;
+          return (
+            <li class="card project">
+              <div class="visual">
+                {p.id === 'symphonyBoard' && <BoardArt aria-label={alt} />}
+                {p.id === 'agentRuntimeKit' && <RuntimeArt aria-label={alt} />}
+                {p.id === 'agentCollab' && (
+                  <Image src={agentCollabShot} alt={alt} widths={[640, 1280]} sizes={sizes} format="webp" loading="eager" />
+                )}
+                {p.id === 'salon' && (
+                  <Image src={salonShot} alt={alt} widths={[640, 1280]} sizes={sizes} format="webp" loading="lazy" />
+                )}
+                {p.id === 'nilsCli' && (
+                  <img src={terminal.src} alt={alt} width={terminal.width} height={terminal.height} loading="lazy" decoding="async" />
+                )}
+              </div>
+              <h2 class="project-name">
+                <span class="mono">{p.name}</span>
+                {p.early && <span class="badge">{c.earlyLabel}</span>}
+              </h2>
+              <p>{c.projects[p.id].description}</p>
+              <p class="project-links">
+                <a href={p.repo} rel="noopener">{c.repoLink}<span class="sr-only"> — {p.name}</span> ↗</a>
+                {p.demo && <a href={p.demo} rel="noopener">{c.demoLink}<span class="sr-only"> — {p.name}</span> ↗</a>}
+              </p>
+            </li>
+          );
+        })}
       </ul>
     </div>
   </section>

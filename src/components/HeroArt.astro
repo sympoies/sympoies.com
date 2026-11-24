@@ -1,0 +1,53 @@
+---
+// Abstract hero illustration: a code window feeding a short pipeline that ends in a check.
+// Colors come from the page's CSS variables, so it follows light and dark mode.
+---
+
+<svg class="hero-art" viewBox="0 0 560 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id="hero-dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.4" fill="var(--border)"></circle>
+    </pattern>
+  </defs>
+  <rect x="0" y="0" width="560" height="420" rx="20" fill="url(#hero-dots)"></rect>
+
+  <!-- code window -->
+  <g>
+    <rect x="36" y="44" width="330" height="236" rx="14" fill="var(--surface)" stroke="var(--border)" stroke-width="2"></rect>
+    <circle cx="60" cy="68" r="5" fill="var(--border)"></circle>
+    <circle cx="78" cy="68" r="5" fill="var(--border)"></circle>
+    <circle cx="96" cy="68" r="5" fill="var(--border)"></circle>
+    <line x1="36" y1="90" x2="366" y2="90" stroke="var(--border)" stroke-width="2"></line>
+    <rect x="60" y="112" width="96" height="10" rx="5" fill="var(--accent)"></rect>
+    <rect x="166" y="112" width="140" height="10" rx="5" fill="var(--border)"></rect>
+    <rect x="84" y="136" width="170" height="10" rx="5" fill="var(--border)"></rect>
+    <rect x="84" y="160" width="120" height="10" rx="5" fill="var(--accent)" opacity="0.55"></rect>
+    <rect x="214" y="160" width="90" height="10" rx="5" fill="var(--border)"></rect>
+    <rect x="84" y="184" width="200" height="10" rx="5" fill="var(--border)"></rect>
+    <rect x="60" y="208" width="60" height="10" rx="5" fill="var(--border)"></rect>
+    <rect x="130" y="208" width="110" height="10" rx="5" fill="var(--accent)" opacity="0.55"></rect>
+    <rect x="60" y="240" width="150" height="10" rx="5" fill="var(--border)"></rect>
+  </g>
+
+  <!-- pipeline -->
+  <g fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round">
+    <path d="M366 162 H408 C424 162 424 262 440 262 H462"></path>
+  </g>
+  <g>
+    <circle cx="408" cy="162" r="9" fill="var(--bg)" stroke="var(--accent)" stroke-width="3"></circle>
+    <circle cx="440" cy="262" r="9" fill="var(--bg)" stroke="var(--accent)" stroke-width="3"></circle>
+  </g>
+
+  <!-- result card -->
+  <g>
+    <rect x="270" y="232" width="150" height="130" rx="14" fill="var(--surface)" stroke="var(--border)" stroke-width="2"></rect>
+    <rect x="290" y="254" width="70" height="10" rx="5" fill="var(--border)"></rect>
+    <rect x="290" y="278" width="110" height="10" rx="5" fill="var(--border)"></rect>
+    <rect x="290" y="302" width="90" height="10" rx="5" fill="var(--border)"></rect>
+    <rect x="290" y="326" width="50" height="10" rx="5" fill="var(--accent)" opacity="0.55"></rect>
+  </g>
+
+  <!-- check badge -->
+  <circle cx="494" cy="262" r="32" fill="var(--accent)"></circle>
+  <path d="M480 262 l10 10 l20 -22" fill="none" stroke="var(--accent-text)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>

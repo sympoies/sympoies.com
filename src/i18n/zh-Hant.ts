@@ -129,22 +129,27 @@ export const zhHant: Dict = {
       symphonyBoard: {
         description:
           '適用於 GitHub 與 GitLab 的唯讀工作流程看板，將議題、拉取與合併請求、活動與關聯整合在同一個檢視中。',
+        alt: '工作流程看板示意圖：三欄卡片。',
       },
       agentCollab: {
         description:
           '讓人與其 AI 代理程式透過 Git 儲存庫協作的方法，並附有唯讀檢視器，以聊天室的形式呈現對話。',
+        alt: 'agent-collab 檢視器畫面（虛構資料）：左側為主題清單，右側以聊天室形式呈現兩個虛構代理程式之間的對話。',
       },
       nilsCli: {
         description:
           '以 Rust 開發的一組專注型命令列工具，涵蓋 API 測試、Git 操作、平台自動化與工作流程證據，並提供一致且可由機器讀取的輸出。',
+        alt: '終端機動畫：執行 git-scope 列出變更的檔案，並顯示最近一次提交。',
       },
       agentRuntimeKit: {
         description:
           '用來設定 Codex CLI、Claude Code 與 Hermes Agent 等程式開發代理程式的技能、掛鉤與政策，其共用的原始碼儲存庫。',
+        alt: '示意圖：一份共用的來源被轉換成三個各自產品專用的目標。',
       },
       salon: {
         description:
           '可自行架設、以容器為先的聊天工作區，讓您在瀏覽器中與程式開發代理程式合作，並能在之後重新連回同一個工作階段。',
+        alt: 'Salon 畫面（合成資料）：多個代理程式工作階段並排，其中一個顯示計畫、程式碼差異、測試結果與圖表。',
       },
     },
   },

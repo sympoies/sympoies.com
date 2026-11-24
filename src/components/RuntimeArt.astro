@@ -1,0 +1,28 @@
+---
+// Illustration for a shared runtime source: one source rendered into several product targets.
+const targets = [90, 150, 210];
+---
+
+<svg viewBox="0 0 624 390" xmlns="http://www.w3.org/2000/svg" role="img" {...Astro.props}>
+  <rect x="0" y="0" width="624" height="390" fill="var(--bg-alt)"></rect>
+  <g transform="translate(0 45)">
+  <!-- source -->
+  <rect x="48" y="86" width="168" height="128" rx="12" fill="var(--surface)" stroke="var(--border)" stroke-width="2"></rect>
+  <rect x="68" y="108" width="72" height="10" rx="5" fill="var(--accent)"></rect>
+  <rect x="68" y="134" width="128" height="8" rx="4" fill="var(--border)"></rect>
+  <rect x="68" y="154" width="104" height="8" rx="4" fill="var(--border)"></rect>
+  <rect x="68" y="174" width="116" height="8" rx="4" fill="var(--border)"></rect>
+  <!-- render arrows -->
+  <g fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round">
+    {targets.map((y) => <path d={`M216 150 C 280 150, 300 ${y}, 364 ${y}`}></path>)}
+  </g>
+  <!-- targets -->
+  {targets.map((y) => (
+    <g>
+      <rect x="364" y={y - 22} width="212" height="44" rx="10" fill="var(--surface)" stroke="var(--border)" stroke-width="2"></rect>
+      <circle cx="388" cy={y} r="8" fill="var(--accent)" opacity="0.6"></circle>
+      <rect x="408" y={y - 5} width="120" height="10" rx="5" fill="var(--border)"></rect>
+    </g>
+  ))}
+  </g>
+</svg>
