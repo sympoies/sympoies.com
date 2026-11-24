@@ -1,0 +1,117 @@
+---
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n';
+import { site, type Locale } from '../lib/site';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = t(locale).contact;
+const f = c.form;
+const endpoint = site.contactEndpoint;
+// With an endpoint the form posts there; without one it opens the visitor's mail client.
+const action = endpoint || `mailto:${site.email}?subject=${encodeURIComponent(f.mailSubject)}`;
+---
+
+<Base locale={locale} page="contact" title={c.title} description={c.description}>
+  <section class="page-head">
+    <div class="container">
+      <h1>{c.heading}</h1>
+      <p class="lead">{c.lead}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container contact-layout">
+      <form
+        id="contact-form"
+        class="form"
+        action={action}
+        method="post"
+        enctype={endpoint ? undefined : 'text/plain'}
+        data-endpoint={endpoint}
+        data-mailto={`mailto:${site.email}`}
+        data-subject={f.mailSubject}
+        data-labels={[f.name, f.email, f.company, f.message].join('|')}
+        data-sending={f.sending}
+        data-success={f.success}
+        data-error={f.error}
+      >
+        <div class="field">
+          <label for="name">{f.name}</label>
+          <input id="name" name="name" type="text" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="email">{f.email}</label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="company">{f.company} <span class="muted">({f.optional})</span></label>
+          <input id="company" name="company" type="text" autocomplete="organization" />
+        </div>
+        <div class="field">
+          <label for="message">{f.message}</label>
+          <textarea id="message" name="message" rows="7" required aria-describedby="message-hint"></textarea>
+          <p id="message-hint" class="muted small">{f.messageHint}</p>
+        </div>
+        <p class="hp" aria-hidden="true">
+          <label>Leave this field empty <input name="_gotcha" type="text" tabindex="-1" autocomplete="off" /></label>
+        </p>
+        <button class="button" type="submit">{f.submit}</button>
+        <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <aside class="card side">
+        <h2>{c.emailTitle}</h2>
+        <p>{c.emailBody} <a href={`mailto:${site.email}`}>{site.email}</a></p>
+      </aside>
+    </div>
+  </section>
+
+  <script>
+    // Progressive enhancement. With a form endpoint, submit in the background
+    // and show the result inline. Without one, open the mail client with the
+    // message prefilled. Without JavaScript the form submits natively.
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const status = document.getElementById('form-status');
+    if (form && status && !form.dataset.endpoint) {
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const data = new FormData(form);
+        const [name, email, company, message] = (form.dataset.labels ?? '').split('|');
+        const lines = [
+          `${name}: ${data.get('name')}`,
+          `${email}: ${data.get('email')}`,
+          ...(data.get('company') ? [`${company}: ${data.get('company')}`] : []),
+          '',
+          String(data.get('message') ?? ''),
+        ];
+        const query = `subject=${encodeURIComponent(form.dataset.subject ?? '')}&body=${encodeURIComponent(lines.join('\n'))}`;
+        window.location.href = `${form.dataset.mailto}?${query}`;
+      });
+    } else if (form && status) {
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+        button.disabled = true;
+        status.textContent = form.dataset.sending ?? '';
+        status.className = 'form-status';
+        try {
+          const response = await fetch(form.dataset.endpoint!, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' },
+          });
+          if (!response.ok) throw new Error(String(response.status));
+          form.reset();
+          status.textContent = form.dataset.success ?? '';
+          status.className = 'form-status ok';
+        } catch {
+          status.textContent = form.dataset.error ?? '';
+          status.className = 'form-status err';
+        } finally {
+          button.disabled = false;
+        }
+      });
+    }
+  </script>
+</Base>
