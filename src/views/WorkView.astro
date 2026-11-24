@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n';
+import { projects } from '../lib/projects';
+import type { Locale } from '../lib/site';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const c = t(locale).work;
+---
+
+<Base locale={locale} page="work" title={c.title} description={c.description}>
+  <section class="page-head">
+    <div class="container">
+      <h1>{c.heading}</h1>
+      <p class="lead">{c.lead}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <ul class="grid grid-2 cards">
+        {projects.map((p) => (
+          <li class="card project">
+            <h2 class="project-name">
+              <span class="mono">{p.name}</span>
+              {p.early && <span class="badge">{c.earlyLabel}</span>}
+            </h2>
+            <p>{c.projects[p.id].description}</p>
+            <p class="project-links">
+              <a href={p.repo} rel="noopener">{c.repoLink}<span class="sr-only"> — {p.name}</span> ↗</a>
+              {p.demo && <a href={p.demo} rel="noopener">{c.demoLink}<span class="sr-only"> — {p.name}</span> ↗</a>}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
