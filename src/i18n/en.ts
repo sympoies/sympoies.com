@@ -163,7 +163,6 @@ export const en = {
       sending: 'Sending…',
       success: 'Thank you. Your message has been sent and we will reply by email.',
       error: 'Sorry, the message could not be sent. Please email us directly instead.',
-      mailSubject: 'Enquiry from the website',
     },
     emailTitle: 'Prefer email?',
     emailBody: 'You can also write to us directly at',

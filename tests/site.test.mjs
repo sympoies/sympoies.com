@@ -8,7 +8,8 @@ import { join } from 'node:path';
 
 const OUT = 'dist-test';
 const SITE = 'https://example.test/base/';
-const ENDPOINT = 'https://forms.example.test/f/abc';
+const DEFAULT_ENDPOINT = 'https://formspree.io/f/xyewbawr';
+const OVERRIDE_ENDPOINT = 'https://forms.example.test/f/abc';
 const PAGES = ['', 'services/', 'work/', 'contact/'];
 const LOCALES = [
   { prefix: '', lang: 'en' },
@@ -24,7 +25,7 @@ function build(env) {
   });
 }
 
-before(() => build({ SITE_URL: SITE, PUBLIC_CONTACT_ENDPOINT: ENDPOINT }));
+before(() => build({ SITE_URL: SITE, PUBLIC_CONTACT_ENDPOINT: '' }));
 
 test('every page exists in both locales with the right lang', () => {
   for (const { prefix, lang } of LOCALES) {
@@ -69,7 +70,7 @@ test('work page links the public projects and verified demo pages in both locale
   }
 });
 
-test('contact page has the form fields, the mailto fallback and the configured endpoint', () => {
+test('contact form posts to the default endpoint and shows the mailto link', () => {
   for (const { prefix } of LOCALES) {
     const html = read(`${prefix}contact/`);
     for (const field of ['name', 'email', 'company', 'message']) {
@@ -77,15 +78,16 @@ test('contact page has the form fields, the mailto fallback and the configured e
     }
     assert.match(html, /id="company" name="company"[^>]*>/);
     assert.doesNotMatch(html.match(/<input id="company"[^>]*>/)[0], /required/);
-    assert.ok(html.includes('mailto:terry@sympoies.com'));
-    assert.ok(html.includes(`action="${ENDPOINT}"`));
+    assert.ok(html.includes('mailto:hello@sympoies.com'));
+    assert.match(html, new RegExp(`<form[^>]*action="${DEFAULT_ENDPOINT}"[^>]*method="post"`));
   }
 });
 
-test('without an endpoint the form falls back to the mail client', () => {
-  build({ SITE_URL: SITE, PUBLIC_CONTACT_ENDPOINT: '' });
+test('PUBLIC_CONTACT_ENDPOINT overrides the default endpoint', () => {
+  build({ SITE_URL: SITE, PUBLIC_CONTACT_ENDPOINT: OVERRIDE_ENDPOINT });
   const html = read('contact/');
-  assert.match(html, /<form[^>]*action="mailto:terry@sympoies\.com\?subject=/);
+  assert.match(html, new RegExp(`<form[^>]*action="${OVERRIDE_ENDPOINT}"`));
+  assert.ok(!html.includes(DEFAULT_ENDPOINT));
 });
 
 test('no external scripts or tracking', () => {
