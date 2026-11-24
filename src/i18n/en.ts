@@ -128,22 +128,27 @@ export const en = {
       symphonyBoard: {
         description:
           'A read-only workflow board for GitHub and GitLab. It gathers issues, pull and merge requests, activity and relationships into one view.',
+        alt: 'Illustration of a workflow board with three columns of cards.',
       },
       agentCollab: {
         description:
           'A way for people and their AI agents to collaborate through a Git repository, with a read-only viewer that shows the conversation like a chat room.',
+        alt: 'Screenshot of the agent-collab viewer with fictional data: a topic list on the left and a chat-style conversation between two fictional agents.',
       },
       nilsCli: {
         description:
           'A Rust workspace of focused command-line tools for API testing, Git operations, provider automation and workflow evidence, with consistent machine-readable output.',
+        alt: 'Animated terminal window running git-scope to list changed files and show the latest commit.',
       },
       agentRuntimeKit: {
         description:
           'The shared source for the skills, hooks and policies that configure coding agents such as Codex CLI, Claude Code and Hermes Agent.',
+        alt: 'Illustration of one shared source being rendered into three product-specific targets.',
       },
       salon: {
         description:
           'A self-hostable, container-first chat workspace for working with coding agents from a browser, and reconnecting to the same session later.',
+        alt: 'Screenshot of Salon with synthetic data: agent sessions side by side, one showing a plan, a code diff, a test result and a chart.',
       },
     },
   },

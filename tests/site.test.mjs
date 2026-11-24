@@ -3,7 +3,7 @@
 import { test, before } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const OUT = 'dist-test';
@@ -98,4 +98,50 @@ test('no external scripts or tracking', () => {
       assert.doesNotMatch(html, /google-analytics|googletagmanager|plausible|gtag\(/);
     }
   }
+});
+
+test('every project on the Work page has a visual with localized alt text and dimensions', () => {
+  for (const { prefix } of LOCALES) {
+    const html = read(`${prefix}work/`);
+    const cards = html.split('<li class="card project">').slice(1);
+    assert.equal(cards.length, 5);
+    for (const card of cards) {
+      const visual = card.match(/<div class="visual">([\s\S]*?)<\/div>/)[1];
+      const alt = visual.match(/<img[^>]*\balt="([^"]+)"/)?.[1] ?? visual.match(/<svg[^>]*aria-label="([^"]+)"/)?.[1];
+      assert.ok(alt, `${prefix}work: visual without alt text`);
+      if (prefix) assert.match(alt, /[\u4e00-\u9fff]/, `alt text not translated: ${alt}`);
+      for (const img of visual.match(/<img[^>]*>/g) ?? []) {
+        assert.match(img, /\bwidth="\d+"/);
+        assert.match(img, /\bheight="\d+"/);
+      }
+    }
+  }
+});
+
+test('screenshots below the fold are lazy-loaded', () => {
+  const html = read('work/');
+  const imgs = html.match(/<img[^>]*>/g);
+  assert.ok(imgs.length >= 3);
+  const lazy = imgs.filter((i) => /loading="lazy"/.test(i));
+  assert.ok(lazy.length >= 2, 'expected the terminal and Salon images to be lazy');
+});
+
+test('home and services show icons for each service and process step in both locales', () => {
+  for (const { prefix } of LOCALES) {
+    const home = read(prefix);
+    assert.match(home, /class="hero-art"/);
+    assert.equal((home.match(/class="card-icon"/g) ?? []).length, 3);
+    assert.equal((home.match(/class="flow-node"/g) ?? []).length, 5);
+    const services = read(`${prefix}services/`);
+    assert.equal((services.match(/class="card-icon"/g) ?? []).length, 3);
+    assert.equal((services.match(/class="flow-node"/g) ?? []).length, 4);
+  }
+});
+
+test('visual assets stay within a modest budget', () => {
+  const dir = join(OUT, '_astro');
+  const total = readdirSync(dir)
+    .filter((f) => /\.(webp|svg|png|jpg)$/.test(f))
+    .reduce((sum, f) => sum + statSync(join(dir, f)).size, 0);
+  assert.ok(total < 200 * 1024, `image assets total ${total} bytes`);
 });

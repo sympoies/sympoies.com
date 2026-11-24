@@ -96,6 +96,11 @@ a:hover { color: var(--accent-hover); }
 /* Sections */
 .hero { padding-block: clamp(3rem, 9vw, 6.5rem); background: var(--bg-alt); border-bottom: 1px solid var(--border); }
 .hero h1 { max-width: 22ch; }
+.hero-grid { display: grid; gap: 2rem; align-items: center; }
+.hero-art { width: 100%; height: auto; max-width: 32rem; justify-self: center; }
+@media (min-width: 56rem) {
+  .hero-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); }
+}
 .lead { font-size: clamp(1.1rem, 2vw, 1.3rem); color: var(--muted); max-width: 46rem; }
 .small-lead { margin-bottom: 1.75rem; }
 .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
@@ -124,10 +129,36 @@ a:hover { color: var(--accent-hover); }
 .bullets { padding-inline-start: 1.2rem; color: var(--muted); }
 .bullets li { margin-bottom: 0.4rem; }
 
-.steps { display: grid; gap: 1.25rem; list-style: none; counter-reset: step; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); }
-.steps li { counter-increment: step; border-top: 3px solid var(--accent); padding-top: 0.9rem; }
-.steps li::before { content: counter(step, decimal-leading-zero); display: block; font-family: var(--mono); color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem; }
-.steps p { color: var(--muted); margin-bottom: 0; }
+/* Process flow: an icon node per step, joined by connector lines. */
+.flow { --node: 4rem; --gap: 1.5rem; display: grid; gap: var(--gap); list-style: none; grid-template-columns: repeat(var(--steps), minmax(0, 1fr)); margin-top: 1.5rem; }
+.flow li { position: relative; }
+.flow-node {
+  display: grid; place-items: center; width: var(--node); height: var(--node); border-radius: 50%;
+  background: var(--surface); border: 2px solid var(--accent); color: var(--accent); margin-bottom: 0.9rem;
+}
+.flow li:not(:last-child)::after {
+  content: ''; position: absolute; top: calc(var(--node) / 2 - 1px); height: 2px; background: var(--border);
+  inset-inline-start: calc(var(--node) + 0.5rem); inset-inline-end: calc(-1 * var(--gap) + 0.5rem);
+}
+.flow h3 { margin-bottom: 0.3em; }
+.flow p { color: var(--muted); margin-bottom: 0; }
+@media (max-width: 62rem) {
+  .flow { grid-template-columns: 1fr; --gap: 1.75rem; }
+  .flow li { display: grid; grid-template-columns: var(--node) minmax(0, 1fr); gap: 1rem; }
+  .flow-node { margin-bottom: 0; }
+  .flow li:not(:last-child)::after {
+    top: calc(var(--node) + 0.5rem); bottom: calc(-1 * var(--gap) + 0.5rem); width: 2px; height: auto;
+    inset-inline-start: calc(var(--node) / 2 - 1px); inset-inline-end: auto;
+  }
+}
+
+.card-icon {
+  display: inline-grid; place-items: center; width: 3rem; height: 3rem; border-radius: var(--radius);
+  background: var(--bg-alt); color: var(--accent); margin-bottom: 0.9rem; border: 1px solid var(--border);
+}
+
+.visual { margin: -1.4rem -1.4rem 1.1rem; border-bottom: 1px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; overflow: hidden; aspect-ratio: 16 / 10; background: var(--bg-alt); }
+.visual > svg, .visual > img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
 
 .project-name { font-size: 1.2rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; }
 .badge { font-family: var(--font); font-size: 0.75rem; font-weight: 600; border: 1px solid var(--border); border-radius: 999px; padding: 0.1rem 0.6rem; color: var(--muted); }

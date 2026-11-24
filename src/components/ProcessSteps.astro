@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+import type { IconName } from '../lib/icons';
+
+interface Props {
+  steps: readonly { title: string; body: string }[];
+  icons: IconName[];
+}
+const { steps, icons } = Astro.props;
+---
+
+<!-- A flow diagram: one icon node per step, joined by connector lines drawn in CSS. -->
+<ol class="flow" style={`--steps: ${steps.length}`}>
+  {steps.map((s, i) => (
+    <li>
+      <span class="flow-node"><Icon name={icons[i]} size={28} /></span>
+      <div class="flow-text">
+        <h3>{s.title}</h3>
+        <p>{s.body}</p>
+      </div>
+    </li>
+  ))}
+</ol>
