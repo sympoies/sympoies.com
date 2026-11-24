@@ -248,9 +248,9 @@ a:hover { color: var(--accent-hover); }
 .footer-inner p { margin: 0; }
 .footer-links { list-style: none; display: grid; gap: 0.3rem; }
 .social-link { display: inline-flex; align-items: center; justify-content: center; inline-size: 2.75rem; block-size: 2.75rem; margin-inline-start: -0.6rem; color: #000; border-radius: 50%; }
-.social-link:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
+.social-link:hover { color: #000; background: color-mix(in srgb, currentColor 12%, transparent); }
 @media (prefers-color-scheme: dark) {
-  .social-link { color: #fff; }
+  .social-link, .social-link:hover { color: #fff; }
 }
 
 @media (prefers-reduced-motion: reduce) {

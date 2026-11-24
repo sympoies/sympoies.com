@@ -178,3 +178,9 @@ test('footer GitHub link is an icon with an accessible name in both locales', ()
     assert.match(footer, /<a[^>]*social-link[^>]*>\s*<svg[^>]*aria-hidden="true"/);
   }
 });
+
+test('footer GitHub mark stays black on light and white on dark, including on hover', () => {
+  const css = readFileSync('src/styles/global.css', 'utf8');
+  assert.match(css, /\.social-link:hover\s*\{[^}]*color:\s*#000/);
+  assert.match(css, /prefers-color-scheme: dark\)\s*\{\s*\.social-link,\s*\.social-link:hover\s*\{\s*color:\s*#fff/);
+});
