@@ -164,7 +164,6 @@ export const zhHant: Dict = {
       sending: '傳送中…',
       success: '謝謝您。訊息已送出，我們會透過電子郵件回覆。',
       error: '抱歉，訊息無法送出。請直接寄電子郵件給我們。',
-      mailSubject: '來自網站的詢問',
     },
     emailTitle: '偏好電子郵件？',
     emailBody: '您也可以直接寫信給我們：',

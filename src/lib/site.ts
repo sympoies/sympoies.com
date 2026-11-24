@@ -16,9 +16,9 @@ export const site = {
   name: 'Sympoies',
   email: 'terry@sympoies.com',
   github: 'https://github.com/sympoies',
-  // Optional form-forwarding endpoint, set at build time. Empty means the
-  // contact form falls back to the visitor's mail client.
-  contactEndpoint: import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? '',
+  // Form-forwarding endpoint (a public URL, not a secret). The build-time
+  // variable PUBLIC_CONTACT_ENDPOINT overrides the default when set and non-empty.
+  contactEndpoint: import.meta.env.PUBLIC_CONTACT_ENDPOINT || 'https://formspree.io/f/xgakpbak',
 };
 
 /** Path of a page in a locale, including the configured base path. */

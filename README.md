@@ -41,15 +41,13 @@ Both settings are read at build time.
 | Variable | Purpose | Default |
 | -------- | ------- | ------- |
 | `SITE_URL` | Full public URL, including any sub-path. Controls links, canonical URLs and asset paths. | `http://localhost:4321/` |
-| `PUBLIC_CONTACT_ENDPOINT` | Form-forwarding URL for the contact form. It is public, not a secret. | empty |
+| `PUBLIC_CONTACT_ENDPOINT` | Optional override of the contact form's endpoint. It is public, not a secret. | the endpoint in `src/lib/site.ts` |
 
 In CI both come from repository variables (`SITE_URL`, `CONTACT_ENDPOINT`) with a preview default for `SITE_URL`, so no code change is needed.
 
 ### Contact form
 
-The site is static, so the form posts to a form-forwarding service that you configure. Any service that accepts a standard form POST and can answer with JSON works, for example Formspree or Web3Forms (both have free plans and need an account). Create a form there that delivers to the contact address, then set `CONTACT_ENDPOINT` to its URL.
-
-When no endpoint is set, submitting the form opens the visitor's mail client with the message prefilled, and the contact address is always shown as a plain `mailto:` link.
+The site is static, so the form posts to a form-forwarding service (Formspree). The default endpoint is set in `src/lib/site.ts`; to point the form at another service that accepts a standard form POST and can answer with JSON, set `CONTACT_ENDPOINT` as a repository variable (or `PUBLIC_CONTACT_ENDPOINT` locally). The contact address is always shown as a plain `mailto:` link, and the form's error message asks visitors to email directly.
 
 ## Deploy
 
