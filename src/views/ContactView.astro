@@ -46,7 +46,7 @@ const endpoint = site.contactEndpoint;
           <textarea id="message" name="message" rows="7" required aria-describedby="message-hint"></textarea>
           <p id="message-hint" class="muted small">{f.messageHint}</p>
         </div>
-        <input type="hidden" name="_subject" value={site.contactSubject} />
+        <input type="hidden" name="subject" value={site.contactSubject} />
         <p class="hp" aria-hidden="true">
           <label>Leave this field empty <input name="_gotcha" type="text" tabindex="-1" autocomplete="off" /></label>
         </p>
@@ -70,9 +70,6 @@ const endpoint = site.contactEndpoint;
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
         const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-        const subject = form.elements.namedItem('_subject') as HTMLInputElement | null;
-        const name = (form.elements.namedItem('name') as HTMLInputElement).value.trim();
-        if (subject && name) subject.value = `${subject.defaultValue}: ${name}`;
         button.disabled = true;
         status.textContent = form.dataset.sending ?? '';
         status.className = 'form-status';

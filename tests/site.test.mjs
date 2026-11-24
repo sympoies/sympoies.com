@@ -83,10 +83,10 @@ test('contact form posts to the default endpoint and shows the mailto link', () 
   }
 });
 
-test('contact form sends a fixed subject so notifications are recognizable', () => {
+test('contact form sends a subject template so notifications are recognizable', () => {
   for (const { prefix } of LOCALES) {
     const html = read(`${prefix}contact/`);
-    assert.match(html, /<input type="hidden" name="_subject" value="sympoies\.com contact"/, `${prefix}contact`);
+    assert.match(html, /<input type="hidden" name="subject" value="sympoies\.com contact: \{\{ name \}\}"/, `${prefix}contact`);
   }
 });
 
