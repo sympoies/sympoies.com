@@ -1,5 +1,5 @@
 ---
-import Icon from './Icon.astro';
+import HexIcon from './HexIcon.astro';
 import type { IconName } from '../lib/icons';
 
 interface Props {
@@ -13,7 +13,7 @@ const { steps, icons } = Astro.props;
 <ol class="flow" style={`--steps: ${steps.length}`}>
   {steps.map((s, i) => (
     <li>
-      <span class="flow-node"><Icon name={icons[i]} size={28} /></span>
+      <span class="flow-node"><HexIcon name={icons[i]} size={72} /></span>
       <div class="flow-text">
         <h3>{s.title}</h3>
         <p>{s.body}</p>

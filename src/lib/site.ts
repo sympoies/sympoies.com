@@ -3,13 +3,15 @@ export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = 'en';
 
 export const pages = ['home', 'services', 'work', 'contact'] as const;
-export type PageKey = (typeof pages)[number];
+/** The pages in the main navigation, plus the internal brand page. */
+export type PageKey = (typeof pages)[number] | 'brand';
 
 const slugs: Record<PageKey, string> = {
   home: '',
   services: 'services/',
   work: 'work/',
   contact: 'contact/',
+  brand: 'brand/',
 };
 
 export const site = {

@@ -1,0 +1,25 @@
+---
+import { iconPaths, type IconName } from '../lib/icons';
+
+interface Props {
+  name: IconName;
+  size?: number;
+}
+const { name, size = 64 } = Astro.props;
+---
+
+<!-- A line icon inside a hexagon, the shape used throughout the brand. -->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 64 64"
+  width={size}
+  height={size}
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+>
+  <polygon points="32,2 58,17 58,47 32,62 6,47 6,17" fill="var(--surface)" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round"></polygon>
+  <g transform="translate(18 18) scale(1.17)" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d={iconPaths[name]}></path>
+  </g>
+</svg>

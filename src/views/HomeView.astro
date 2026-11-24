@@ -1,8 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import CtaBand from '../components/CtaBand.astro';
-import HeroArt from '../components/HeroArt.astro';
-import Icon from '../components/Icon.astro';
+import HeroLattice from '../components/HeroLattice.astro';
+import LatticeBg from '../components/LatticeBg.astro';
+import HexIcon from '../components/HexIcon.astro';
 import ProcessSteps from '../components/ProcessSteps.astro';
 import { pillarIcons, processIcons } from '../lib/icons';
 import { t } from '../i18n';
@@ -15,6 +16,7 @@ const c = t(locale).home;
 
 <Base locale={locale} page="home" title={c.title} description={c.description}>
   <section class="hero">
+    <LatticeBg />
     <div class="container hero-grid">
       <div>
         <h1>{c.heroTitle}</h1>
@@ -24,7 +26,7 @@ const c = t(locale).home;
           <a class="button secondary" href={pagePath(locale, 'work')}>{c.ctaSecondary}</a>
         </p>
       </div>
-      <HeroArt />
+      <HeroLattice />
     </div>
   </section>
 
@@ -34,7 +36,7 @@ const c = t(locale).home;
       <ul class="grid grid-3 cards">
         {c.pillars.map((p, i) => (
           <li class="card">
-            <span class="card-icon"><Icon name={pillarIcons[i]} size={28} /></span>
+            <span class="card-icon"><HexIcon name={pillarIcons[i]} size={64} /></span>
             <h3>{p.title}</h3>
             <p>{p.body}</p>
           </li>

@@ -1,0 +1,30 @@
+---
+import { activeMark } from '../lib/brand';
+import { lockup } from '../lib/lockup';
+import { markSvg, type MarkOption } from '../lib/marks';
+
+interface Props {
+  /** `lockup` is the mark with the word "sympoies"; `mark` is the mark alone. */
+  variant?: 'lockup' | 'mark';
+  /** Rendered height in pixels. */
+  height?: number;
+  option?: MarkOption;
+}
+const { variant = 'lockup', height = 36, option = activeMark } = Astro.props;
+const fill = (key: string) => `var(--mk-${key})`;
+const l = variant === 'lockup' ? lockup(option, fill, 'var(--text)') : null;
+const width = l ? Math.round((l.width / l.height) * height) : height;
+const viewBox = l ? `0 0 ${l.width} ${l.height}` : '0 0 64 64';
+const body = l ? l.body : markSvg(option, 32, 32, 31, fill, 3);
+---
+
+<svg
+  class="logo"
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox={viewBox}
+  width={width}
+  height={height}
+  aria-hidden="true"
+  focusable="false"
+  set:html={body}
+/>
