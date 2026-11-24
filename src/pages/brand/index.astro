@@ -1,0 +1,213 @@
+---
+// Internal brand page: logo mark options, palette, type scale and motifs.
+// English only, not linked from the site and hidden from search engines.
+import Base from '../../layouts/Base.astro';
+import HeroLattice from '../../components/HeroLattice.astro';
+import HexDivider from '../../components/HexDivider.astro';
+import HexIcon from '../../components/HexIcon.astro';
+import LatticeBg from '../../components/LatticeBg.astro';
+import { activeMark } from '../../lib/brand';
+import { iconPaths, type IconName } from '../../lib/icons';
+import { lockup } from '../../lib/lockup';
+import { markMonoSvg, markOptions, markPalettes, markSvg, type MarkOption } from '../../lib/marks';
+import { contrast, readTokens } from '../../lib/tokens';
+
+const light = markPalettes.light;
+const dark = markPalettes.dark;
+
+const svg = (body: string, w: number, h: number) =>
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" aria-hidden="true" focusable="false">${body}</svg>`;
+const mark = (o: MarkOption, size: number, pal: typeof light, levels = 3) =>
+  svg(markSvg(o, size / 2, size / 2, size / 2 - 1, (k) => pal[k], levels), size, size);
+const lock = (o: MarkOption, pal: typeof light, text: string, height: number) => {
+  const l = lockup(o, (k) => pal[k], text);
+  const w = Math.round((l.width / l.height) * height);
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${l.width} ${l.height}" width="${w}" height="${height}" aria-hidden="true" focusable="false">${l.body}</svg>`;
+};
+const mono = (o: MarkOption, size: number, color: string, id: string) => svg(markMonoSvg(o, size, color, id), size, size);
+
+const tokens = readTokens();
+const swatches: { name: string; role: string }[] = [
+  { name: '--bg', role: 'Page background' },
+  { name: '--bg-alt', role: 'Alternate sections' },
+  { name: '--surface', role: 'Cards and fields' },
+  { name: '--border', role: 'Hairlines' },
+  { name: '--text', role: 'Body and headings (brand navy)' },
+  { name: '--muted', role: 'Secondary text' },
+  { name: '--accent', role: 'Links and icons' },
+  { name: '--btn', role: 'Primary button' },
+];
+const brandSwatches = [
+  { hex: '#122D4A', name: 'Navy', role: 'Primary, text' },
+  { hex: '#174166', name: 'Mid navy', role: 'Hover, secondary fills' },
+  { hex: '#0486BA', name: 'Blue', role: 'Accent in artwork and the mark' },
+  { hex: '#AAACAA', name: 'Gray', role: 'Soft shapes' },
+  { hex: '#F3EEEA', name: 'Paper', role: 'Light faces' },
+  { hex: '#E8E4E0', name: 'Stone', role: 'Artwork background' },
+];
+const pairs = [
+  { name: 'Text on page', fg: '--text', bg: '--bg' },
+  { name: 'Muted text on alternate', fg: '--muted', bg: '--bg-alt' },
+  { name: 'Link on page', fg: '--accent', bg: '--bg' },
+  { name: 'Button label', fg: '--btn-text', bg: '--btn' },
+];
+const ratio = (theme: 'light' | 'dark', p: (typeof pairs)[number]) =>
+  contrast(tokens[theme][p.fg], tokens[theme][p.bg]).toFixed(1);
+
+const allIcons = Object.keys(iconPaths) as IconName[];
+const sizes = [16, 24, 32, 48];
+---
+
+<Base locale="en" page="brand" title="Brand preview" description="Logo options, palette, type scale and motifs." noindex>
+  <section class="page-head">
+    <div class="container">
+      <h1>Brand preview</h1>
+      <p class="lead">
+        Logo mark options, palette, type scale and motifs, derived from the “Recursive Lattice of Intent”
+        artwork. This page is internal: it is not linked from the site and is hidden from search engines.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Logo mark options</h2>
+      <p class="muted">
+        All three are built from one hexagon split into the three faces of an isometric cube and nested toward the
+        centre. To choose, change <code>activeMark</code> in <code>src/lib/brand.ts</code> and run
+        <code>node scripts/brand.mjs</code>. The current default is option {activeMark.toUpperCase()}.
+      </p>
+      <div class="bp-options">
+        {markOptions.map((o) => (
+          <article class="card bp-option">
+            <h3>
+              Option {o.id.toUpperCase()}: {o.name}
+              {o.id === activeMark && <span class="badge">Default</span>}
+            </h3>
+            <p class="muted">{o.note}</p>
+            <div class="bp-panel bp-light" set:html={mark(o.id, 160, light, 4)} />
+            <div class="bp-panel bp-dark" set:html={mark(o.id, 160, dark, 4)} />
+            <p class="small muted">At small sizes (detail reduced from 24 px down)</p>
+            <div class="bp-row bp-light">
+              {sizes.map((s) => <span set:html={mark(o.id, s, light, s <= 24 ? 2 : 3)} />)}
+            </div>
+            <div class="bp-row bp-dark">
+              {sizes.map((s) => <span set:html={mark(o.id, s, dark, s <= 24 ? 2 : 3)} />)}
+            </div>
+            <p class="small muted">Horizontal lockup</p>
+            <div class="bp-panel bp-light" set:html={lock(o.id, light, '#122D4A', 44)} />
+            <div class="bp-panel bp-dark" set:html={lock(o.id, dark, '#F3EEEA', 44)} />
+            <p class="small muted">Single color</p>
+            <div class="bp-row bp-light">
+              <span set:html={mono(o.id, 64, '#122D4A', `mono-${o.id}-navy`)} />
+            </div>
+            <div class="bp-row bp-navy">
+              <span set:html={mono(o.id, 64, '#FFFFFF', `mono-${o.id}-white`)} />
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <h2>Palette</h2>
+      <p class="muted">Sampled from the artwork.</p>
+      <ul class="bp-swatches">
+        {brandSwatches.map((c) => (
+          <li>
+            <span class="bp-chip" style={`background:${c.hex}`}></span>
+            <span class="bp-meta">
+              <strong>{c.name} <code>{c.hex}</code></strong>
+              <span class="small muted">{c.role}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <h3>Color tokens</h3>
+      <p class="muted">Light and dark values as defined in <code>src/styles/global.css</code>.</p>
+      <ul class="bp-swatches">
+        {swatches.map((s) => (
+          <li>
+            <span class="bp-chip bp-pair">
+              <span style={`background:${tokens.light[s.name]}`}></span>
+              <span style={`background:${tokens.dark[s.name]}`}></span>
+            </span>
+            <span class="bp-meta">
+              <strong><code>{s.name}</code></strong>
+              <span class="small muted">{s.role}</span>
+              <span class="small"><code>{tokens.light[s.name]}</code> light <code>{tokens.dark[s.name]}</code> dark</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <h3>Contrast (WCAG)</h3>
+      <table class="bp-table">
+        <thead><tr><th>Pair</th><th>Light</th><th>Dark</th></tr></thead>
+        <tbody>
+          {pairs.map((p) => (
+            <tr><td>{p.name}</td><td>{ratio('light', p)}:1</td><td>{ratio('dark', p)}:1</td></tr>
+          ))}
+        </tbody>
+      </table>
+      <p class="small muted">Body text needs at least 4.5:1. A test fails the build if a pair drops below it.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Type scale</h2>
+      <p class="muted">System font stack (fast, no downloads). The wordmark is drawn from outlines, not live text.</p>
+      <div class="bp-type">
+        <p style="font-size:var(--fs-h1);font-weight:700;line-height:1.2;margin:0"><code>--fs-h1</code> Dependable software</p>
+        <p style="font-size:var(--fs-h2);font-weight:700;line-height:1.25;margin:0"><code>--fs-h2</code> Engineering you can rely on</p>
+        <p style="font-size:var(--fs-h3);font-weight:700;margin:0"><code>--fs-h3</code> Test-first delivery</p>
+        <p style="font-size:var(--fs-lead);margin:0"><code>--fs-lead</code> Lead paragraph for introductions.</p>
+        <p style="font-size:var(--fs-base);margin:0"><code>--fs-base</code> Body text for descriptions and long reading.</p>
+        <p style="font-size:var(--fs-sm);margin:0"><code>--fs-sm</code> Small text for notes and captions.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="container">
+      <h2>Motifs</h2>
+      <h3>Hexagon icons</h3>
+      <ul class="bp-icons">
+        {allIcons.map((n) => <li><HexIcon name={n} size={64} /><span class="small muted">{n}</span></li>)}
+      </ul>
+      <h3>Divider</h3>
+      <HexDivider />
+      <h3>Lattice background</h3>
+      <div class="bp-lattice"><LatticeBg /></div>
+      <h3>Hero composition</h3>
+      <div class="bp-hero"><HeroLattice /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .bp-options { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); margin-top: 1.5rem; }
+  .bp-option { display: grid; gap: 0.6rem; align-content: start; }
+  .bp-panel, .bp-row { display: flex; align-items: center; justify-content: center; gap: 1.25rem; padding: 1.25rem; border-radius: var(--radius); }
+  .bp-light { background: #f6f3ef; }
+  .bp-dark { background: #0b1a2c; }
+  .bp-navy { background: #122d4a; }
+  .bp-swatches { list-style: none; display: grid; gap: 0.75rem; margin: 1rem 0 2rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  .bp-swatches li { display: flex; gap: 0.75rem; align-items: center; }
+  .bp-meta { display: grid; line-height: 1.4; }
+  .bp-chip { flex: none; width: 3rem; height: 3rem; border-radius: 8px; border: 1px solid var(--border); display: block; }
+  .bp-pair { display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
+  .bp-table { border-collapse: collapse; margin: 0.5rem 0; }
+  .bp-table th, .bp-table td { text-align: left; padding: 0.4rem 1.25rem 0.4rem 0; border-bottom: 1px solid var(--border); }
+  .bp-type { display: grid; gap: 1.1rem; margin-top: 1.25rem; }
+  .bp-type code, .bp-swatches code { font-size: 0.8em; color: var(--muted); margin-inline-end: 0.5rem; }
+  .bp-icons { list-style: none; display: flex; flex-wrap: wrap; gap: 1.25rem; margin: 1rem 0 2rem; }
+  .bp-icons li { display: grid; justify-items: center; gap: 0.25rem; }
+  .bp-lattice { position: relative; height: 10rem; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); background: var(--bg-alt); margin-bottom: 2rem; }
+  .bp-lattice :global(.lattice) { position: absolute; inset: 0; }
+  .bp-hero { max-width: 28rem; }
+</style>

@@ -3,7 +3,7 @@
 import { test, before } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const OUT = 'dist-test';
@@ -144,4 +144,25 @@ test('visual assets stay within a modest budget', () => {
     .filter((f) => /\.(webp|svg|png|jpg)$/.test(f))
     .reduce((sum, f) => sum + statSync(join(dir, f)).size, 0);
   assert.ok(total < 200 * 1024, `image assets total ${total} bytes`);
+});
+
+test('every page carries the logo lockup, favicons and apple touch icon', () => {
+  for (const { prefix } of LOCALES) {
+    const html = read(`${prefix}services/`);
+    assert.match(html, /<a class="brand" href="[^"]*" aria-label="Sympoies"><svg class="logo"/);
+    assert.match(html, /rel="icon" type="image\/svg\+xml" href="\/base\/favicon\.svg"/);
+    assert.match(html, /rel="icon" type="image\/png" sizes="32x32" href="\/base\/favicon-32\.png"/);
+    assert.match(html, /rel="apple-touch-icon" href="\/base\/apple-touch-icon\.png"/);
+  }
+  for (const f of ['favicon.svg', 'favicon-32.png', 'apple-touch-icon.png']) {
+    assert.ok(existsSync(join(OUT, f)), `${f} missing from the build`);
+  }
+});
+
+test('brand page shows the three mark options, is hidden from search engines and has no translations', () => {
+  const html = read('brand/');
+  for (const o of ['A', 'B', 'C']) assert.ok(html.includes(`Option ${o}:`), `option ${o} missing`);
+  assert.match(html, /<meta name="robots" content="noindex"/);
+  assert.doesNotMatch(html, /hreflang/);
+  assert.doesNotMatch(read(''), /href="[^"]*\/brand\/"/, 'brand page must not be linked from the site');
 });

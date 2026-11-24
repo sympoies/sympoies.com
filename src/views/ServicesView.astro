@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import CtaBand from '../components/CtaBand.astro';
-import Icon from '../components/Icon.astro';
+import HexIcon from '../components/HexIcon.astro';
 import ProcessSteps from '../components/ProcessSteps.astro';
 import { pillarIcons, stageIcons } from '../lib/icons';
 import { t } from '../i18n';
@@ -26,7 +26,7 @@ const c = t(locale).services;
       <ul class="grid grid-3 cards">
         {c.areas.map((a, i) => (
           <li class="card">
-            <span class="card-icon"><Icon name={pillarIcons[i]} size={28} /></span>
+            <span class="card-icon"><HexIcon name={pillarIcons[i]} size={64} /></span>
             <h3>{a.title}</h3>
             <p>{a.body}</p>
             <ul class="bullets">

@@ -1,0 +1,39 @@
+---
+// Hero composition inspired by the brand artwork: the logo mark at the centre, flat hexagons
+// around it and a few isometric guide lines. Decorative; colors follow the page tokens.
+import { activeMark } from '../lib/brand';
+import { markSvg } from '../lib/marks';
+
+const S = Math.sqrt(3) / 2;
+const hex = (cx: number, cy: number, r: number) =>
+  [[0, -1], [S, -0.5], [S, 0.5], [0, 1], [-S, 0.5], [-S, -0.5]]
+    .map(([x, y]) => `${Math.round((cx + x * r) * 10) / 10},${Math.round((cy + y * r) * 10) / 10}`)
+    .join(' ');
+
+const flats = [
+  { cx: 96, cy: 84, r: 58, fill: 'var(--art-soft)' },
+  { cx: 492, cy: 78, r: 84, fill: 'var(--art-soft)' },
+  { cx: 72, cy: 290, r: 62, fill: 'var(--art-solid)' },
+  { cx: 540, cy: 262, r: 50, fill: 'var(--art-soft)' },
+  { cx: 112, cy: 482, r: 76, fill: 'var(--art-solid)' },
+  { cx: 506, cy: 470, r: 62, fill: 'var(--art-solid)' },
+];
+const lines = [
+  'M300 26 V100',
+  'M150 190 L300 106 L450 190',
+  'M60 400 L170 336 L226 368',
+  'M300 520 V470',
+  'M450 400 L560 336',
+  'M390 540 L560 440',
+  'M20 150 L150 75',
+];
+const centre = markSvg(activeMark, 300, 290, 168, (k) => `var(--mk-${k})`, 4);
+---
+
+<svg class="hero-art" viewBox="0 0 600 580" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  {flats.map((h) => <polygon points={hex(h.cx, h.cy, h.r)} fill={h.fill} />)}
+  <g fill="none" stroke="var(--art-line)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    {lines.map((d) => <path d={d} />)}
+  </g>
+  <g set:html={centre} />
+</svg>
