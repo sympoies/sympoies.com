@@ -20,6 +20,9 @@ export const site = {
   github: 'https://github.com/sympoies',
   // Form-forwarding endpoint (a public URL, not a secret). The build-time
   // variable PUBLIC_CONTACT_ENDPOINT overrides the default when set and non-empty.
+  // Subject line of the notification email. The form service replaces {{ name }} with the
+  // submitted name (see its "Email subject line" documentation).
+  contactSubject: 'sympoies.com contact: {{ name }}',
   contactEndpoint: import.meta.env.PUBLIC_CONTACT_ENDPOINT || 'https://formspree.io/f/xyewbawr',
 };
 

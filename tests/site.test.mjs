@@ -83,6 +83,13 @@ test('contact form posts to the default endpoint and shows the mailto link', () 
   }
 });
 
+test('contact form sends a subject template so notifications are recognizable', () => {
+  for (const { prefix } of LOCALES) {
+    const html = read(`${prefix}contact/`);
+    assert.match(html, /<input type="hidden" name="subject" value="sympoies\.com contact: \{\{ name \}\}"/, `${prefix}contact`);
+  }
+});
+
 test('PUBLIC_CONTACT_ENDPOINT overrides the default endpoint', () => {
   build({ SITE_URL: SITE, PUBLIC_CONTACT_ENDPOINT: OVERRIDE_ENDPOINT });
   const html = read('contact/');
@@ -183,4 +190,42 @@ test('footer GitHub mark stays black on light and white on dark, including on ho
   const css = readFileSync('src/styles/global.css', 'utf8');
   assert.match(css, /\.social-link:hover\s*\{[^}]*color:\s*#000/);
   assert.match(css, /prefers-color-scheme: dark\)\s*\{\s*\.social-link,\s*\.social-link:hover\s*\{\s*color:\s*#fff/);
+});
+
+test('contact form sends the same subject on every submission and after a reset', async () => {
+  const html = read('contact/');
+  const script = html.match(/<script type="module">([\s\S]*?)<\/script>/)[1];
+  const subjectInput = html.match(/<input type="hidden" name="(_?subject)" value="([^"]*)"/);
+  assert.ok(subjectInput, 'the form has a hidden subject input');
+
+  // A hidden input as browsers model it: assigning value also moves defaultValue,
+  // and form.reset() restores value from defaultValue.
+  const field = (name, value) => ({ name, value, defaultValue: value });
+  const fields = {
+    name: field('name', ''),
+    [subjectInput[1]]: field(subjectInput[1], subjectInput[2].replace(/&#123;/g, '{')),
+  };
+  const sent = [];
+  const handlers = {};
+  const form = {
+    action: 'https://example.invalid/f/x',
+    dataset: {},
+    elements: { namedItem: (n) => fields[n] ?? null },
+    querySelector: () => ({ disabled: false }),
+    addEventListener: (type, fn) => { handlers[type] = fn; },
+    reset: () => { for (const f of Object.values(fields)) f.value = f.defaultValue; },
+  };
+  const status = { textContent: '', className: '' };
+  const document = { getElementById: (id) => (id === 'contact-form' ? form : id === 'form-status' ? status : null) };
+  class FormData { constructor() { this.subject = fields[subjectInput[1]].value; } }
+  const fetch = async () => { sent.push(fields[subjectInput[1]].value); return { ok: true }; };
+  new Function('document', 'FormData', 'fetch', script)(document, FormData, fetch);
+
+  for (const who of ['Alice', 'Bob']) {
+    fields.name.value = who;
+    await handlers.submit({ preventDefault() {} });
+  }
+  assert.equal(sent.length, 2);
+  assert.equal(sent[1], sent[0], 'the second submission carries the same subject as the first');
+  assert.ok(!sent[1].includes('Alice'), 'a previous visitor name never leaks into the subject');
 });
