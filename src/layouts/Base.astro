@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Logo from '../components/Logo.astro';
 import HexDivider from '../components/HexDivider.astro';
 import { t } from '../i18n';
+import { githubMark } from '../lib/icons';
 import { locales, pagePath, site, type Locale, type PageKey } from '../lib/site';
 
 interface Props {
@@ -90,7 +91,13 @@ const navPages = ['home', 'services', 'work', 'contact'] as const;
         </div>
         <ul class="footer-links">
           <li>{d.footer.emailLabel}: <a href={`mailto:${site.email}`}>{site.email}</a></li>
-          <li><a href={site.github} rel="noopener">{d.footer.github}</a></li>
+          <li>
+            <a class="social-link" href={site.github} rel="noopener" aria-label={d.footer.githubLabel}>
+              <svg viewBox="0 0 16 16" width="24" height="24" fill="currentColor" aria-hidden="true" focusable="false">
+                <path d={githubMark} />
+              </svg>
+            </a>
+          </li>
         </ul>
       </div>
       <div class="container muted small">© {new Date().getFullYear()} {site.name}</div>

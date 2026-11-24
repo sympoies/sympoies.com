@@ -13,7 +13,7 @@ export const en = {
   langSwitch: { label: 'Language' },
   footer: {
     tagline: 'Software development, consulting and AI workflow adoption.',
-    github: 'GitHub',
+    githubLabel: 'GitHub',
     emailLabel: 'Email',
   },
   home: {

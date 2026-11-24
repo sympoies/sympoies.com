@@ -166,3 +166,15 @@ test('brand page shows the three mark options, is hidden from search engines and
   assert.doesNotMatch(html, /hreflang/);
   assert.doesNotMatch(read(''), /href="[^"]*\/brand\/"/, 'brand page must not be linked from the site');
 });
+
+test('footer GitHub link is an icon with an accessible name in both locales', () => {
+  const names = { '': 'GitHub', 'zh-Hant/': 'GitHub' };
+  for (const [prefix, label] of Object.entries(names)) {
+    const html = read(prefix);
+    const footer = html.slice(html.indexOf('<footer'));
+    const link = footer.match(/<a[^>]*href="https:\/\/github\.com\/sympoies"[^>]*>/);
+    assert.ok(link, `${prefix} footer links to the GitHub profile`);
+    assert.match(link[0], new RegExp(`aria-label="${label}"`));
+    assert.match(footer, /<a[^>]*social-link[^>]*>\s*<svg[^>]*aria-hidden="true"/);
+  }
+});

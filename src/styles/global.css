@@ -247,6 +247,8 @@ a:hover { color: var(--accent-hover); }
 .footer-brand { margin-bottom: 0.5rem; }
 .footer-inner p { margin: 0; }
 .footer-links { list-style: none; display: grid; gap: 0.3rem; }
+.social-link { display: inline-flex; align-items: center; justify-content: center; inline-size: 2.75rem; block-size: 2.75rem; margin-inline-start: -0.6rem; color: var(--text); border-radius: 50%; }
+.social-link:hover { color: var(--accent); }
 
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
