@@ -15,7 +15,7 @@ export const zhHant: Dict = {
   langSwitch: { label: '語言' },
   footer: {
     tagline: '軟體開發、技術顧問與 AI 工作流程導入。',
-    github: 'GitHub',
+    githubLabel: 'GitHub',
     emailLabel: '電子郵件',
   },
   home: {

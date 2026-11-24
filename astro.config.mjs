@@ -1,9 +1,9 @@
 import { defineConfig } from 'astro/config';
 
 // One setting controls where the site is served: SITE_URL, the full public URL
-// including any sub-path, e.g. https://sympoies.com/ or
-// https://sympoies.github.io/sympoies.com/. It is split into Astro's `site`
-// (origin) and `base` (path prefix).
+// including any sub-path, e.g. https://sympoies.com/ (the deploy workflow's
+// default) or a project-pages URL with a sub-path. It is split into Astro's
+// `site` (origin) and `base` (path prefix).
 const siteUrl = new URL(process.env.SITE_URL ?? 'http://localhost:4321/');
 
 export default defineConfig({

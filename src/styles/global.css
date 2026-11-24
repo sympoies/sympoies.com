@@ -247,6 +247,11 @@ a:hover { color: var(--accent-hover); }
 .footer-brand { margin-bottom: 0.5rem; }
 .footer-inner p { margin: 0; }
 .footer-links { list-style: none; display: grid; gap: 0.3rem; }
+.social-link { display: inline-flex; align-items: center; justify-content: center; inline-size: 2.75rem; block-size: 2.75rem; margin-inline-start: -0.6rem; color: #000; border-radius: 50%; }
+.social-link:hover { color: #000; background: color-mix(in srgb, currentColor 12%, transparent); }
+@media (prefers-color-scheme: dark) {
+  .social-link, .social-link:hover { color: #fff; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }

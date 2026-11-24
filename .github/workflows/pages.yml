@@ -15,8 +15,8 @@ concurrency:
 
 env:
   # Where the site is served. Set the repository variable SITE_URL to change it
-  # (for example https://sympoies.com/ once the custom domain is live).
-  SITE_URL: ${{ vars.SITE_URL || 'https://sympoies.github.io/sympoies.com/' }}
+  # (the default is the custom domain, https://sympoies.com/).
+  SITE_URL: ${{ vars.SITE_URL || 'https://sympoies.com/' }}
   # Optional override of the contact form endpoint (a public URL); empty keeps the default.
   PUBLIC_CONTACT_ENDPOINT: ${{ vars.CONTACT_ENDPOINT }}
 
