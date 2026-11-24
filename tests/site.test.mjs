@@ -83,6 +83,13 @@ test('contact form posts to the default endpoint and shows the mailto link', () 
   }
 });
 
+test('contact form sends a fixed subject so notifications are recognizable', () => {
+  for (const { prefix } of LOCALES) {
+    const html = read(`${prefix}contact/`);
+    assert.match(html, /<input type="hidden" name="_subject" value="sympoies\.com contact"/, `${prefix}contact`);
+  }
+});
+
 test('PUBLIC_CONTACT_ENDPOINT overrides the default endpoint', () => {
   build({ SITE_URL: SITE, PUBLIC_CONTACT_ENDPOINT: OVERRIDE_ENDPOINT });
   const html = read('contact/');
