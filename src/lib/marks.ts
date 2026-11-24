@@ -1,5 +1,5 @@
 // Geometry of the Sympoies logo mark, derived from the "Recursive Lattice of Intent" artwork
-// (brand/source). Everything is built from one pointy-top hexagon split into the three
+// (not included in this repository). Everything is built from one pointy-top hexagon split into the three
 // rhombus faces of an isometric cube, and then nested toward the centre.
 //
 // This module is plain, erasable TypeScript so that both the Astro components and

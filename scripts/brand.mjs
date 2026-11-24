@@ -72,7 +72,7 @@ for (const { id } of markOptions) {
 }
 
 // ---- favicons for the active option ----
-const vars = (p) => `--k-dark:${p.dark};--k-mid:${p.mid};--k-bright:${p.bright};--k-paper:${p.paper}`;
+const vars = (p) => `--k-dark:${p.dark};--k-mid:${p.mid};--k-bright:${p.bright};--k-gray:${p.gray};--k-paper:${p.paper}`;
 const faviconBody = markSvg(activeMark, 32, 32, 31, (k) => `var(--k-${k})`, 2);
 writeFileSync(
   out('public/favicon.svg'),

@@ -36,7 +36,7 @@ English pages live at `/`, `/services/`, `/work/`, `/contact/`; Traditional Chin
 
 ## Brand and visuals
 
-The brand comes from the "Recursive Lattice of Intent" artwork kept in `brand/source/`. Open `/brand/` on a built site (it is not linked and is hidden from search engines) to see the logo mark options, palette, type scale and motifs.
+The brand comes from the "Recursive Lattice of Intent" artwork, which is not part of this repository. Open `/brand/` on a built site (it is not linked and is hidden from search engines) to see the logo mark options, palette, type scale and motifs.
 
 - **Tokens:** colors, type scale and radius are CSS custom properties at the top of `src/styles/global.css`; dark mode follows the visitor's system setting. A test fails if text contrast drops below WCAG AA in either theme.
 - **Logo:** the mark is built in `src/lib/marks.ts` (three options). The active one is `activeMark` in `src/lib/brand.ts`; after changing it run `node scripts/brand.mjs` to regenerate `brand/logo/` (mark, lockup, on-dark and single-color SVGs, PNG exports), the favicons in `public/` and the wordmark outlines in `src/lib/wordmark.ts`. The wordmark is Lato Semibold (SIL Open Font License) converted to outlines; the script reads the font from the system fonts directory.
