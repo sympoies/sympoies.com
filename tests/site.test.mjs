@@ -8,7 +8,7 @@ import { join } from 'node:path';
 
 const OUT = 'dist-test';
 const SITE = 'https://example.test/base/';
-const DEFAULT_ENDPOINT = 'https://formspree.io/f/xgakpbak';
+const DEFAULT_ENDPOINT = 'https://formspree.io/f/xyewbawr';
 const OVERRIDE_ENDPOINT = 'https://forms.example.test/f/abc';
 const PAGES = ['', 'services/', 'work/', 'contact/'];
 const LOCALES = [
@@ -78,7 +78,7 @@ test('contact form posts to the default endpoint and shows the mailto link', () 
     }
     assert.match(html, /id="company" name="company"[^>]*>/);
     assert.doesNotMatch(html.match(/<input id="company"[^>]*>/)[0], /required/);
-    assert.ok(html.includes('mailto:terry@sympoies.com'));
+    assert.ok(html.includes('mailto:hello@sympoies.com'));
     assert.match(html, new RegExp(`<form[^>]*action="${DEFAULT_ENDPOINT}"[^>]*method="post"`));
   }
 });
