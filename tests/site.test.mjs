@@ -53,15 +53,21 @@ test('internal links and assets honor the configured base path', () => {
   }
 });
 
-test('work page links the public projects and verified demo pages in both locales', () => {
+test('the Work page shows projects in showcase order and links their sources and demos in both locales', () => {
+  const order = ['symphony-board', 'nils-cli', 'agent-runtime-kit', 'agent-collab', 'nils-alfredworkflow', 'salon'];
   for (const { prefix } of LOCALES) {
     const html = read(`${prefix}work/`);
+    const names = [...html.matchAll(/<h2 class="project-name">\s*<span class="mono">([^<]+)<\/span>/g)]
+      .map(([, name]) => name);
+    assert.deepEqual(names, order, `${prefix}work card order`);
     for (const url of [
       'https://github.com/sympoies/nils-cli',
       'https://github.com/sympoies/agent-runtime-kit',
       'https://github.com/sympoies/salon',
       'https://github.com/sympoies/symphony-board',
       'https://github.com/sympoies/agent-collab',
+      'https://github.com/sympoies/nils-alfredworkflow',
+      'https://github.com/sympoies/nils-alfredworkflow/releases',
       'https://sympoies.github.io/symphony-board/',
       'https://sympoies.github.io/agent-collab/?demo',
     ]) {
@@ -111,7 +117,6 @@ test('every project on the Work page has a visual with localized alt text and di
   for (const { prefix } of LOCALES) {
     const html = read(`${prefix}work/`);
     const cards = html.split('<li class="card project">').slice(1);
-    assert.equal(cards.length, 5);
     for (const card of cards) {
       const visual = card.match(/<div class="visual">([\s\S]*?)<\/div>/)[1];
       const alt = visual.match(/<img[^>]*\balt="([^"]+)"/)?.[1] ?? visual.match(/<svg[^>]*aria-label="([^"]+)"/)?.[1];
@@ -221,6 +226,17 @@ test('brand page shows the three mark options, is hidden from search engines and
   assert.match(html, /<meta name="robots" content="noindex"/);
   assert.doesNotMatch(html, /hreflang/);
   assert.doesNotMatch(read(''), /href="[^"]*\/brand\/"/, 'brand page must not be linked from the site');
+});
+
+test('every page shows the localized city below the footer brand', () => {
+  for (const { prefix, lang } of LOCALES) {
+    const location = lang === 'en' ? 'Taipei, Taiwan' : '台灣・台北';
+    for (const page of prefix ? PAGES : [...PAGES, 'brand/']) {
+      const html = read(prefix + page);
+      const footer = html.slice(html.indexOf('<footer'));
+      assert.match(footer, new RegExp(`<p class="footer-brand">.*?</p>\\s*<p[^>]*>${location}</p>`), prefix + page);
+    }
+  }
 });
 
 test('footer GitHub link is an icon with an accessible name in both locales', () => {
