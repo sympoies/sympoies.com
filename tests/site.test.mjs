@@ -3,7 +3,7 @@
 import { test, before } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const OUT = 'dist-test';
@@ -133,6 +133,37 @@ test('screenshots below the fold are lazy-loaded', () => {
   assert.ok(lazy.length >= 2, 'expected the terminal and Salon images to be lazy');
 });
 
+test('work screenshots follow the system color scheme in both locales', () => {
+  for (const { prefix } of LOCALES) {
+    const html = read(`${prefix}work/`);
+    for (const name of ['symphony-board', 'agent-collab', 'salon']) {
+      const card = html.split('<li class="card project">').find((part) => part.includes(`<span class="mono">${name}</span>`));
+      const context = `${prefix}work: ${name}`;
+      const picture = card?.match(/<picture\b[^>]*>([\s\S]*?)<\/picture>/)?.[1];
+      assert.ok(picture, `${context} needs a theme-aware picture`);
+      const dark = picture.match(/<source\b[^>]*media="\(prefers-color-scheme: dark\)"[^>]*>/)?.[0];
+      const light = picture.match(/<img\b[^>]*>/)?.[0];
+      assert.ok(dark && light, `${context} needs a dark source and a light default`);
+
+      const variants = [light, dark].map((tag) => {
+        assert.match(tag, /\bsizes="[^"]+"/, context);
+        const srcset = tag.match(/\bsrcset="([^"]+)"/)?.[1];
+        assert.ok(srcset, `${context} needs a responsive srcset`);
+        const candidates = srcset.split(', ').map((entry) => {
+          const match = entry.match(/^\/base\/(\S+\.(?:webp|avif)) (\d+)w$/);
+          assert.ok(match && existsSync(join(OUT, match[1])), `${context}: invalid candidate ${entry}`);
+          return { file: match[1], width: Number(match[2]) };
+        });
+        assert.ok(candidates.some(({ width }) => width <= 420), `${context} needs a phone size`);
+        assert.ok(candidates.some(({ width }) => width >= 1440), `${context} needs a 2x size for the widest card`);
+        return candidates;
+      });
+      const lightFiles = variants[0].map(({ file }) => file);
+      assert.ok(variants[1].every(({ file }) => !lightFiles.includes(file)), `${context} reuses the light capture in dark mode`);
+    }
+  }
+});
+
 test('home and services show icons for each service and process step in both locales', () => {
   for (const { prefix } of LOCALES) {
     const home = read(prefix);
@@ -145,12 +176,21 @@ test('home and services show icons for each service and process step in both loc
   }
 });
 
-test('visual assets stay within a modest budget', () => {
-  const dir = join(OUT, '_astro');
-  const total = readdirSync(dir)
-    .filter((f) => /\.(webp|svg|png|jpg)$/.test(f))
-    .reduce((sum, f) => sum + statSync(join(dir, f)).size, 0);
-  assert.ok(total < 200 * 1024, `image assets total ${total} bytes`);
+test('Work page image payload stays under 200 KiB in either theme', () => {
+  const html = read('work/');
+  const assetSize = (url) => statSync(join(OUT, url.replace(/^\/base\//, ''))).size;
+  const pictures = [...html.matchAll(/<picture\b[^>]*>([\s\S]*?)<\/picture>/g)];
+  const staticBytes = [...html.replace(/<picture\b[^>]*>[\s\S]*?<\/picture>/g, '').matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)]
+    .reduce((sum, [, url]) => sum + assetSize(url), 0);
+  // A visit loads one candidate per picture, not every width in both themes.
+  for (const [theme, tag] of [['light', 'img'], ['dark', 'source']]) {
+    const total = pictures.reduce((sum, [, picture]) => {
+      const srcset = picture.match(new RegExp(`<${tag}\\b[^>]*\\bsrcset="([^"]+)"`))[1];
+      const largest = Math.max(...srcset.split(', ').map((entry) => assetSize(entry.split(' ')[0])));
+      return sum + largest;
+    }, staticBytes);
+    assert.ok(total < 200 * 1024, `${theme} Work page images total ${total} bytes`);
+  }
 });
 
 test('every page carries the logo lockup, favicons and apple touch icon', () => {
