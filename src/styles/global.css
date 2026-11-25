@@ -147,7 +147,10 @@ a:hover { color: var(--accent-hover); }
   /* Match the artwork width and anchor the lattice below the stacked copy. */
   width: min(100% - 2rem, 34rem); height: auto; aspect-ratio: 1;
   margin-inline: auto;
-  mask-image: radial-gradient(#000 25%, transparent 70%);
+  --hero-lattice-mask: radial-gradient(#000 25%, transparent 70%);
+  /* Safari before 15.4 and Chromium before 120 use the prefixed property. */
+  -webkit-mask-image: var(--hero-lattice-mask);
+  mask-image: var(--hero-lattice-mask);
 }
 .hero h1 { max-width: 22ch; }
 .hero-grid { position: relative; display: grid; gap: 2rem; align-items: center; }
@@ -157,7 +160,7 @@ a:hover { color: var(--accent-hover); }
   .hero .lattice {
     /* Keep the ellipse aligned with the artwork as the hero grid stops growing. */
     inset: 0; width: min(100%, var(--max)); height: 100%;
-    mask-image: radial-gradient(ellipse 32% 70% at 77.5% 50%, #000 25%, transparent 66%);
+    --hero-lattice-mask: radial-gradient(ellipse 32% 70% at 77.5% 50%, #000 25%, transparent 66%);
   }
 }
 .lead { font-size: var(--fs-lead); color: var(--muted); max-width: 46rem; }
