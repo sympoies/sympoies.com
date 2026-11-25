@@ -3,7 +3,7 @@
 import { test, before } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { existsSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const OUT = 'dist-test';
@@ -174,6 +174,15 @@ test('home and services show icons for each service and process step in both loc
     assert.equal((services.match(/class="card-icon"/g) ?? []).length, 3);
     assert.equal((services.match(/class="flow-node"/g) ?? []).length, 4);
   }
+});
+
+test('visual assets stay within a modest budget', () => {
+  const dir = join(OUT, '_astro');
+  const total = readdirSync(dir)
+    .filter((f) => /\.(avif|webp|svg|png|jpe?g)$/.test(f))
+    .reduce((sum, f) => sum + statSync(join(dir, f)).size, 0);
+  // Include every emitted variant and unreferenced asset in the build budget.
+  assert.ok(total < 820 * 1024, `image assets total ${total} bytes`);
 });
 
 test('Work page image payload stays under 200 KiB in either theme', () => {
