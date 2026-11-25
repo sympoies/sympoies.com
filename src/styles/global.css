@@ -202,7 +202,8 @@ a:hover { color: var(--accent-hover); }
 .card-icon svg { display: block; width: 100%; height: 100%; }
 
 .visual { margin: -1.4rem -1.4rem 1.1rem; border-bottom: 1px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; overflow: hidden; aspect-ratio: 16 / 10; background: var(--bg-alt); }
-.visual > svg, .visual > img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.visual > picture { display: block; height: 100%; }
+.visual > svg, .visual img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
 
 .project-name { font-size: 1.2rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; }
 .badge { font-family: var(--font); font-size: 0.75rem; font-weight: 600; border: 1px solid var(--border); border-radius: 999px; padding: 0.1rem 0.6rem; color: var(--muted); }
