@@ -12,6 +12,7 @@ export const en = {
   },
   langSwitch: { label: 'Language' },
   footer: {
+    location: 'Taipei, Taiwan',
     tagline: 'Software development, consulting and AI workflow adoption.',
     githubLabel: 'GitHub',
     emailLabel: 'Email',

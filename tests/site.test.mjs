@@ -228,6 +228,17 @@ test('brand page shows the three mark options, is hidden from search engines and
   assert.doesNotMatch(read(''), /href="[^"]*\/brand\/"/, 'brand page must not be linked from the site');
 });
 
+test('every page shows the localized city below the footer brand', () => {
+  for (const { prefix, lang } of LOCALES) {
+    const location = lang === 'en' ? 'Taipei, Taiwan' : '台灣・台北';
+    for (const page of prefix ? PAGES : [...PAGES, 'brand/']) {
+      const html = read(prefix + page);
+      const footer = html.slice(html.indexOf('<footer'));
+      assert.match(footer, new RegExp(`<p class="footer-brand">.*?</p>\\s*<p[^>]*>${location}</p>`), prefix + page);
+    }
+  }
+});
+
 test('footer GitHub link is an icon with an accessible name in both locales', () => {
   const names = { '': 'GitHub', 'zh-Hant/': 'GitHub' };
   for (const [prefix, label] of Object.entries(names)) {
