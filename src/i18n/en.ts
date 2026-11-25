@@ -128,7 +128,7 @@ export const en = {
       symphonyBoard: {
         description:
           'A read-only workflow board for GitHub and GitLab. It gathers issues, pull and merge requests, activity and relationships into one view.',
-        alt: 'Screenshot from the symphony-board public demo showing activity totals and trends by repository.',
+        alt: 'Symphony Board Activity view with a demo event feed, selected event details, and activity summaries by user and repository.',
       },
       agentCollab: {
         description:

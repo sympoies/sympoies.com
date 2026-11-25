@@ -41,7 +41,9 @@ const imageOptions = { widths: [420, 720, 1080, 1440], sizes, format: 'webp' as 
         {projects.map(async (p) => {
           const alt = c.projects[p.id].alt;
           const screenshot = screenshots[p.id];
-          const dark = screenshot && await getImage({ src: screenshot.dark, ...imageOptions });
+          // Keep the denser Activity capture within the Work page image budget.
+          const options = p.id === 'symphonyBoard' ? { ...imageOptions, quality: 38 } : imageOptions;
+          const dark = screenshot && await getImage({ src: screenshot.dark, ...options });
           return (
             <li class="card project">
               <div class="visual">
@@ -49,7 +51,7 @@ const imageOptions = { widths: [420, 720, 1080, 1440], sizes, format: 'webp' as 
                 {screenshot && dark && (
                   <picture>
                     <source media="(prefers-color-scheme: dark)" type="image/webp" srcset={dark.srcSet.attribute} sizes={sizes} />
-                    <Image src={screenshot.light} alt={alt} {...imageOptions} loading={p.id === 'symphonyBoard' ? 'eager' : 'lazy'} />
+                    <Image src={screenshot.light} alt={alt} {...options} loading={p.id === 'symphonyBoard' ? 'eager' : 'lazy'} />
                   </picture>
                 )}
                 {p.id === 'nilsCli' && (
