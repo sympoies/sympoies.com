@@ -129,7 +129,7 @@ export const zhHant: Dict = {
       symphonyBoard: {
         description:
           '適用於 GitHub 與 GitLab 的唯讀工作流程看板，將議題、拉取與合併請求、活動與關聯整合在同一個檢視中。',
-        alt: 'symphony-board 公開展示畫面：依儲存庫列出活動統計與趨勢。',
+        alt: 'Symphony Board 的活動頁面，顯示示範事件清單、所選事件的詳情，以及依使用者和儲存庫分類的活動摘要。',
       },
       agentCollab: {
         description:
