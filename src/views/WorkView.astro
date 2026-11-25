@@ -2,7 +2,6 @@
 import type { ImageMetadata } from 'astro';
 import { getImage, Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import RuntimeArt from '../components/RuntimeArt.astro';
 import { t } from '../i18n';
 import { projects, type ProjectId } from '../lib/projects';
 import type { Locale } from '../lib/site';
@@ -12,7 +11,9 @@ import salonLight from '../assets/work/salon-light.webp';
 import salonDark from '../assets/work/salon-dark.webp';
 import symphonyBoardLight from '../assets/work/symphony-board-light.webp';
 import symphonyBoardDark from '../assets/work/symphony-board-dark.webp';
-import terminal from '../assets/work/nils-cli-terminal.svg';
+import alfredResults from '../assets/work/nils-alfredworkflow-results.svg';
+import nilsTerminal from '../assets/work/nils-cli-terminal.svg';
+import runtimeTerminal from '../assets/work/agent-runtime-kit-terminal.svg';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
@@ -21,6 +22,11 @@ const screenshots: Partial<Record<ProjectId, { light: ImageMetadata; dark: Image
   agentCollab: { light: agentCollabLight, dark: agentCollabDark },
   salon: { light: salonLight, dark: salonDark },
   symphonyBoard: { light: symphonyBoardLight, dark: symphonyBoardDark },
+};
+const illustrations: Partial<Record<ProjectId, ImageMetadata>> = {
+  nilsCli: nilsTerminal,
+  agentRuntimeKit: runtimeTerminal,
+  nilsAlfredWorkflow: alfredResults,
 };
 // Match the card grid's maximum width, two-column threshold and card borders.
 const sizes = '(min-width: 70rem) 33.25rem, (min-width: 47.25rem) calc((100vw - 3.5rem) / 2), calc(100vw - 2.125rem)';
@@ -41,21 +47,21 @@ const imageOptions = { widths: [420, 720, 1080, 1440], sizes, format: 'webp' as 
         {projects.map(async (p) => {
           const alt = c.projects[p.id].alt;
           const screenshot = screenshots[p.id];
+          const illustration = illustrations[p.id];
           // Keep the denser Activity capture within the Work page image budget.
           const options = p.id === 'symphonyBoard' ? { ...imageOptions, quality: 38 } : imageOptions;
           const dark = screenshot && await getImage({ src: screenshot.dark, ...options });
           return (
             <li class="card project">
               <div class="visual">
-                {p.id === 'agentRuntimeKit' && <RuntimeArt aria-label={alt} />}
                 {screenshot && dark && (
                   <picture>
                     <source media="(prefers-color-scheme: dark)" type="image/webp" srcset={dark.srcSet.attribute} sizes={sizes} />
                     <Image src={screenshot.light} alt={alt} {...options} loading={p.id === 'symphonyBoard' ? 'eager' : 'lazy'} />
                   </picture>
                 )}
-                {p.id === 'nilsCli' && (
-                  <img src={terminal.src} alt={alt} width={terminal.width} height={terminal.height} loading="lazy" decoding="async" />
+                {illustration && (
+                  <img src={illustration.src} alt={alt} width={illustration.width} height={illustration.height} loading="lazy" decoding="async" />
                 )}
               </div>
               <h2 class="project-name">
@@ -66,6 +72,7 @@ const imageOptions = { widths: [420, 720, 1080, 1440], sizes, format: 'webp' as 
               <p class="project-links">
                 <a href={p.repo} rel="noopener">{c.repoLink}<span class="sr-only"> — {p.name}</span> ↗</a>
                 {p.demo && <a href={p.demo} rel="noopener">{c.demoLink}<span class="sr-only"> — {p.name}</span> ↗</a>}
+                {p.releases && <a href={p.releases} rel="noopener">{c.releasesLink}<span class="sr-only"> — {p.name}</span> ↗</a>}
               </p>
             </li>
           );

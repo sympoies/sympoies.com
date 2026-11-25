@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 325" width="520" height="325">
+<!-- Recreation of the public Google Search workflow preview, with sample result copy. -->
+<style>
+  .backdrop{fill:#ece8e3}.window{fill:#fbfaf8;stroke:#d6d1cb}.rule{stroke:#d6d1cb}
+  .selected{fill:#dfedf6}.icon{fill:#e5eff5;color:#0b6e9e}
+  text{font:600 16px system-ui,sans-serif;fill:#122d4a}
+  .query{font-size:25px;font-weight:400}.detail,.key{font-size:13px;font-weight:400;fill:#4a5a6c}
+  .search{color:#0b6e9e}
+  @media (prefers-color-scheme:dark){
+    .backdrop{fill:#0f2238}.window{fill:#0b1a2c;stroke:#2a4565}.rule{stroke:#2a4565}
+    .selected{fill:#174166}.icon{fill:#12304f;color:#52b8ea}
+    text{fill:#e8e4e0}.detail,.key{fill:#a7b4c4}.search{color:#52b8ea}
+  }
+</style>
+<rect class="backdrop" width="520" height="325"/>
+<rect x="20" y="50" width="480" height="240" rx="15" fill="#0b1a2c" opacity=".14"/>
+<rect class="window" x="20.5" y="42.5" width="479" height="239" rx="15"/>
+<path class="rule" d="M20.5 107.5h479"/>
+<defs>
+  <g id="lens" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+    <circle cx="-2" cy="-2" r="6.2"/>
+    <path d="m2.5 2.5 5 5"/>
+  </g>
+</defs>
+<use href="#lens" class="search" transform="translate(46 76) scale(1.35)"/>
+<text class="query" x="69" y="84">gg Tokyo</text>
+<rect class="selected" x="28" y="113" width="464" height="51" rx="7"/>
+<g transform="translate(46 138)">
+  <circle class="icon" r="13"/>
+  <use href="#lens" class="search"/>
+</g>
+<text x="69" y="135">Visit Tokyo</text>
+<text class="detail" x="69" y="153">A guide to neighborhoods, museums and parks</text>
+<text class="key" x="476" y="144" text-anchor="end">↵</text>
+<g transform="translate(46 193)">
+  <circle class="icon" r="13"/>
+  <use href="#lens" class="search"/>
+</g>
+<text x="69" y="190">Getting around Tokyo</text>
+<text class="detail" x="69" y="208">Train maps and transit basics</text>
+<text class="key" x="476" y="199" text-anchor="end">⌘2</text>
+<g transform="translate(46 248)">
+  <circle class="icon" r="13"/>
+  <use href="#lens" class="search"/>
+</g>
+<text x="69" y="245">Tokyo — city overview</text>
+<text class="detail" x="69" y="263">History, geography and culture</text>
+<text class="key" x="476" y="254" text-anchor="end">⌘3</text>
+</svg>

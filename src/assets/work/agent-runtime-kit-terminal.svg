@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 325" width="520" height="325">
+<style>
+  .bg{fill:#fbfaf8}.bar{fill:#ece8e3}
+  text{font:15px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre}
+  .p{fill:#17663a}.c{fill:#17663a}.o{fill:#122d4a}
+  .heading{font-size:12px;fill:#4a5a6c}
+  .ok{fill:#17663a}.err{fill:#a32222}
+  @media (prefers-color-scheme:dark){
+    .bg{fill:#011627}.bar{fill:#0b2942}
+    .p{fill:#addb67}.c{fill:#6fd89a}.o{fill:#d6deeb}
+    .heading{fill:#a7b4c4}
+    .ok{fill:#6fd89a}.err{fill:#ff9b9b}
+  }
+</style>
+<rect class="bg" width="520" height="325" rx="12"/>
+<path class="bar" d="M0 12a12 12 0 0 1 12-12h496a12 12 0 0 1 12 12v24H0z"/>
+<circle cx="24" cy="18" r="6" fill="#ff5f56"/><circle cx="44" cy="18" r="6" fill="#ffbd2e"/><circle cx="64" cy="18" r="6" fill="#27c93f"/>
+  <text class="heading" x="496" y="22" text-anchor="end">agent-runtime-kit  /  delivery guard</text>
+  <text x="24" y="66" xml:space="preserve"><tspan class="p">$ </tspan><tspan class="c">git push origin main</tspan></text>
+  <text x="24" y="88" xml:space="preserve"><tspan class="err">Blocked: direct pushes to main are disabled.</tspan></text>
+  <text x="24" y="110" xml:space="preserve"><tspan class="o">Hint: push a feature branch and open a PR.</tspan></text>
+  <text x="24" y="132" xml:space="preserve"><tspan class="o"></tspan></text>
+  <text x="24" y="154" xml:space="preserve"><tspan class="p">$ </tspan><tspan class="c">git-cli push</tspan></text>
+  <text x="24" y="176" xml:space="preserve"><tspan class="o">Published feat/update-docs.</tspan></text>
+  <text x="24" y="198" xml:space="preserve"><tspan class="o"></tspan></text>
+  <text x="24" y="220" xml:space="preserve"><tspan class="p">$ </tspan><tspan class="c">forge-cli pr create …</tspan></text>
+  <text x="24" y="242" xml:space="preserve"><tspan class="ok">✓ Pull request #42 opened for review.</tspan></text>
+</svg>

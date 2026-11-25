@@ -119,11 +119,12 @@ export const zhHant: Dict = {
   work: {
     title: '作品與開源專案',
     description:
-      'Sympoies 的公開專案：命令列工具、代理程式執行環境設定、可自行架設的聊天工作區、工作流程看板與協作檢視器。',
+      'Sympoies 的公開專案包括工作流程看板、命令列工具、代理程式安全防護、協作檢視器、Alfred 工作流程與可自行架設的聊天工作區。',
     heading: '作品與開源專案',
     lead: '我們公開地開發。以下是我們維護的公開專案，程式碼與文件都可以直接閱讀。',
     repoLink: 'GitHub 原始碼',
     demoLink: '線上展示',
+    releasesLink: '版本發布',
     earlyLabel: '早期開發中',
     projects: {
       symphonyBoard: {
@@ -144,7 +145,11 @@ export const zhHant: Dict = {
       agentRuntimeKit: {
         description:
           '用來設定 Codex CLI、Claude Code 與 Hermes Agent 等程式開發代理程式的技能、掛鉤與政策，其共用的原始碼儲存庫。',
-        alt: '示意圖：一份共用的來源被轉換成三個各自產品專用的目標。',
+        alt: '虛構的終端機操作：安全規則阻止直接推送到預設分支，並引導代理程式改開拉取請求。',
+      },
+      nilsAlfredWorkflow: {
+        description: '為 macOS 打造的一組 Alfred 工作流程，提供 Google、YouTube 搜尋、字典查詢等功能。',
+        alt: '重製的 Alfred 結果清單，以搜尋「東京」為示範。',
       },
       salon: {
         description:

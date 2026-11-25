@@ -118,11 +118,12 @@ export const en = {
   work: {
     title: 'Work and open source',
     description:
-      'Public projects from Sympoies: command-line tooling, agent runtime configuration, a self-hostable chat workspace, a workflow board and a collaboration viewer.',
+      'Public projects from Sympoies include a workflow board, command-line tools, agent guardrails, a collaboration viewer, Alfred workflows and a self-hostable chat workspace.',
     heading: 'Work and open source',
     lead: 'We build in the open. These are public projects we maintain; the code and documentation are there to read.',
     repoLink: 'Source on GitHub',
     demoLink: 'Live demo',
+    releasesLink: 'Releases',
     earlyLabel: 'Early development',
     projects: {
       symphonyBoard: {
@@ -143,7 +144,11 @@ export const en = {
       agentRuntimeKit: {
         description:
           'The shared source for the skills, hooks and policies that configure coding agents such as Codex CLI, Claude Code and Hermes Agent.',
-        alt: 'Illustration of one shared source being rendered into three product-specific targets.',
+        alt: 'A fictional terminal session where a guardrail blocks a direct push to the default branch and guides the agent to open a pull request instead.',
+      },
+      nilsAlfredWorkflow: {
+        description: 'Alfred workflows for macOS, including Google and YouTube search, dictionary lookup and more.',
+        alt: 'Recreated Alfred result list showing sample results for a Google search for Tokyo.',
       },
       salon: {
         description:
